@@ -1,9 +1,11 @@
 import logging
 import json
 import re
+import os
 from http.client import responses as status_codes
 from urllib.parse import unquote, parse_qs
 from inspect import signature
+from jinja2 import Environment, FileSystemLoader
 
 logger = logging.getLogger('burette')
 status_headers = {code: '%d %s' % (code, status_codes[code]) for code in status_codes.keys()}
@@ -232,3 +234,15 @@ def redirect(location_url):
     response.location_url = location_url
     response.status = 302
     return response
+
+
+def jinja2(template_filename, **kwargs):
+    try:
+        template_path = kwargs.pop('template_path', './templates')
+        folder = os.path.abspath(template_path)
+        env = Environment(loader=FileSystemLoader(folder, encoding=kwargs.pop('encoding', 'utf-8'), followlinks=True))
+        template = env.get_template(template_filename)
+        return template.render(**kwargs)
+    except Exception as e:
+        logging.error('Failed to load the template {template_filename}.'.format(template_filename=template_filename))
+        raise e
