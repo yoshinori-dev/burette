@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
     name='burette',
-    version='0.0.1',
+    version='0.1',
     description='A micro web framework',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
