@@ -70,3 +70,18 @@ def get_json():
 
 ```
 
+## Jinja2 integration
+
+```python
+
+from burette import jinja2
+@app.route('/jinja2')
+def jinja():
+    return jinja2('foo.tpl', myvar={'url': 'http://www.example.com', 'name': 'Example'}, template_path='./templates' )
+
+```
+
+
+
+
+
